@@ -1,0 +1,99 @@
+<html>
+  <head>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .color-grid {
+        display: grid;
+        grid-template-columns: repeat(100, 1fr);
+        grid-gap: 1px;
+        width: 800px;
+        height: 800px;
+      }
+
+      .color-cell {
+        width: 100%;
+        height: 100%;
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <label for="selected-color">Select a color:</label>
+    <br>
+    <select id="selected-color">
+      <option value="red">Red</option>
+      <option value="orange">Orange</option>
+      <option value="yellow">Yellow</option>
+      <option value="green">Green</option>
+      <option value="blue">Blue</option>
+      <option value="indigo">Indigo</option>
+      <option value="violet">Violet</option>
+      <option value="pink">Pink</option>
+    </select>
+    <div class="color-grid">
+  <!-- Create 100 cells in the grid using a loop -->
+  <script>
+    // Initialize the grid
+    var grid = [];
+    for (var i = 0; i < 100; i++) {
+      grid[i] = [];
+      for (var j = 0; j < 100; j++) {
+        grid[i][j] = null;
+      }
+    }
+
+    // Create the grid cells
+    for (var i = 0; i < 10000; i++) {
+      var cell = document.createElement("div");
+      cell.className = "color-cell";
+      cell.onclick = function() { colorCell(this) };
+      document.querySelector(".color-grid").appendChild(cell);
+    }
+  </script>
+</div>
+
+<!-- Load the state of the grid from local storage -->
+<script>
+  var savedGrid = JSON.parse(localStorage.getItem("grid"));
+
+  // Update the grid with the saved data
+  for (var i = 0; i < savedGrid.length; i++) {
+    for (var j = 0; j < savedGrid[i].length; j++) {
+      if (savedGrid[i][j]) {
+        document.querySelectorAll(".color-cell")[i * 100 + j].style.backgroundColor = savedGrid[i][j];
+        grid[i][j] = savedGrid[i][j];
+      }
+    }
+  }
+</script>
+
+<script>
+  function colorCell(cell) {
+    // Get the selected color
+    var selectedColor = document.getElementById("selected-color").value;
+
+    // Set the background color of the cell to the selected color
+    cell.style.backgroundColor = selectedColor;
+
+    //
+
+
+  // Update the grid with the current state of the cells
+  var cells = document.querySelectorAll(".color-cell");
+  for (var i = 0; i < 100; i++) {
+    for (var j = 0; j < 100; j++) {
+      grid[i][j] = cells[i * 100 + j].style.backgroundColor;
+    }
+  }
+
+  // Save the state of the grid to local storage
+  localStorage.setItem("grid", JSON.stringify(grid));
+}
+    </script>
+  </body>
+</html>
